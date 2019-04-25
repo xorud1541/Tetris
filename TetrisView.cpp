@@ -30,13 +30,10 @@ BEGIN_MESSAGE_MAP(CTetrisView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_PAINT()
 	ON_WM_TIMER()
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 // CTetrisView 생성/소멸
-
-inline int mapping(int a){
-	return a*25;
-}
 
 CTetrisView::CTetrisView()
 {
@@ -118,7 +115,6 @@ void CTetrisView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-
 	mapMng_ = new MapManager();
 	block_ = new Block();
 	
@@ -127,7 +123,7 @@ void CTetrisView::OnInitialUpdate()
 	drawBlocks_ = block_->GetCurrentBlock();
 	mapMng_->SetBlockToMap(drawBlocks_);
 	if(RemoveBlockAndCallPaint(drawBlocks_, true)){
-		SetTimer(MY_TIMER, 10, 0);
+		SetTimer(MY_TIMER, 100, 0);
 	}
 }
 
@@ -148,6 +144,7 @@ void CTetrisView::OnPaint()
 			int x = i + drawBlocks_.startX;
 			int y = j + drawBlocks_.startY;
 
+			if(x < 0 || x >= WIDTH_IDX) continue;
 			int __startX = mapping(i + drawBlocks_.startX);
 			int __startY = mapping(j + drawBlocks_.startY);
 
@@ -161,6 +158,7 @@ void CTetrisView::OnPaint()
 			}
 		}
 	}
+
 }
 
 void CTetrisView::OnTimer(UINT_PTR nIDEvent)
@@ -168,7 +166,8 @@ void CTetrisView::OnTimer(UINT_PTR nIDEvent)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if(nIDEvent == MY_TIMER){
 		blockRect currentRect = block_->GetCurrentBlock();
-		if(block_->DownBlocks()){
+		int ret = block_->DownBlocks();
+		if(ret == KEEP){
 			blockRect nextRect = block_->GetNextBlock();
 
 			mapMng_->DeleteBlock(currentRect);
@@ -177,6 +176,9 @@ void CTetrisView::OnTimer(UINT_PTR nIDEvent)
 			if(RemoveBlockAndCallPaint(currentRect, true)){
 				block_->UpdateCurrentBlocks(); // current <- next
 			}
+		}
+		else if(ret == OUT){
+
 		}
 		else{
 			mapMng_->AddBlockToMap(currentRect);
@@ -189,3 +191,58 @@ void CTetrisView::OnTimer(UINT_PTR nIDEvent)
 	CView::OnTimer(nIDEvent);
 }
 
+
+
+void CTetrisView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	blockRect currentRect = block_->GetCurrentBlock();
+	if(nChar == VK_LEFT){
+		int ret = block_->LeftBlocks();
+		if(ret == KEEP){
+			blockRect nextRect = block_->GetNextBlock();
+
+			mapMng_->DeleteBlock(currentRect);
+			mapMng_->SetBlockToMap(nextRect);
+			drawBlocks_ = nextRect;
+			if(RemoveBlockAndCallPaint(currentRect, true)){
+				block_->UpdateCurrentBlocks(); // current <- next
+			}
+		}
+		else if(ret == OUT){
+
+		}
+		else {
+			mapMng_->AddBlockToMap(currentRect);
+			drawBlocks_ = currentRect;
+			if(RemoveBlockAndCallPaint(currentRect, true)){
+				mapMng_->SetBlockToMap(block_->MakeFirstBlock());
+			}
+		}
+	}
+	else if(nChar == VK_RIGHT){
+		int ret = block_->RightBlocks();
+		if(ret == KEEP){
+			blockRect nextRect = block_->GetNextBlock();
+
+			mapMng_->DeleteBlock(currentRect);
+			mapMng_->SetBlockToMap(nextRect);
+			drawBlocks_ = nextRect;
+			if(RemoveBlockAndCallPaint(currentRect, true)){
+				block_->UpdateCurrentBlocks(); // current <- next
+			}
+		}
+		else if(ret == OUT){
+
+		}
+		else {
+			mapMng_->AddBlockToMap(currentRect);
+			drawBlocks_ = currentRect;
+			if(RemoveBlockAndCallPaint(currentRect, true)){
+				mapMng_->SetBlockToMap(block_->MakeFirstBlock());
+			}
+		}
+	}
+	
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}

@@ -62,7 +62,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
-
+	ShowWindow(SW_HIDE);
 	return 0;
 }
 
@@ -74,7 +74,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	//  Window 클래스 또는 스타일을 수정합니다.
 	cs.cx = 768; //가로
 	cs.cy = 1006; //세로
-
 
 	return TRUE;
 }

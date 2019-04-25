@@ -10,6 +10,8 @@
 #define MY_TIMER 1000
 using namespace std;
 
+inline int mapping(int a){	return a*25; }
+
 class CTetrisView : public CView
 {
 private:
@@ -41,7 +43,6 @@ protected:
 public:
 	virtual ~CTetrisView();
 	BOOL RemoveBlockAndCallPaint(blockRect, bool);
-	void UpdateMapView(blockRect&);
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -56,6 +57,7 @@ public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnPaint();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // TetrisView.cpp의 디버그 버전

@@ -3,21 +3,27 @@
 #define __BLOCK_H
 #include "StructPool.h"
 #include "MapManager.h"
+#include <vector>
 #define BLOCKWIDTH 100
 #define PARTICLE 25
+#define STOP 0
+#define OUT -1
+#define KEEP 1
 
-inline bool IsRange(int i, int j){
+inline int IsRange(int i, int j){
 	if(( i >= 0 && i < WIDTH_IDX) && ( j >= 0 && j < HEIGHT_IDX))
-		return true;
+		return KEEP;
+	else if(( j >= 0 && j < HEIGHT_IDX) && ( i < 0 || i >= WIDTH_IDX))
+		return OUT;
 	else
-		return false;
+		return STOP;
 }
 
 enum dir 
 {
 	down = 0,
 	left,
-	rigth
+	right
 };
 
 class Block
@@ -27,16 +33,15 @@ private:
 	blockRect nextBlock_;
 	int blockMask_[4][4];
 	int** map_;
-
-	HWND hView_;
 public:
 	Block(void);
-	Block(HWND handle) { hView_ = handle; };
 	~Block(void);
 	void SetMap(int** __map) { map_ = __map; };
 	blockRect& MakeFirstBlock();
-	BOOL DownBlocks();
-	BOOL IsAbleToMove(blockRect, int);
+	int DownBlocks();
+	int LeftBlocks();
+	int RightBlocks();
+	int IsAbleToMove(blockRect, int);
 
 	void UpdateCurrentBlocks();
 	void CopyBlocks(int a[][4], int b[][4]);

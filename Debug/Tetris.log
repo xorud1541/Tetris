@@ -1,8 +1,10 @@
-﻿빌드 시작: 2019-04-25 오전 11:23:46
+﻿빌드 시작: 2019-04-25 오후 5:20:48
      1>2 노드의 "C:\Users\jeon\Documents\Visual Studio 2012\Projects\Tetris\Tetris\Tetris.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Tetris.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt TetrisView.cpp
          TetrisView.cpp
+     1>c:\users\jeon\documents\visual studio 2012\projects\tetris\tetris\block.h(10): warning C4005: 'OUT' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.0\include\shared\minwindef.h(83) : 'OUT'의 이전 정의를 참조하십시오.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\jeon\Documents\Visual Studio 2012\Projects\Tetris\Debug\Tetris.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\jeon\Documents\Visual Studio 2012\Projects\Tetris\Debug\Tetris.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\jeon\Documents\Visual Studio 2012\Projects\Tetris\Debug\Tetris.lib" /MACHINE:X86 Debug\Tetris.res
          Debug\Block.obj
@@ -18,4 +20,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:00.49
+경과 시간: 00:00:00.76
